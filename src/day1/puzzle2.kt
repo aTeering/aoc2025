@@ -3,8 +3,7 @@ package day1
 import java.io.File
 import kotlin.math.abs
 
-// This is not correct yet...
-// Will try to come back to it in a later time
+// thanks to jeff, he helped me alot with debugging :D
 fun main() {
     val inputFile = File("src/day1/input.txt")
     var position = 50
@@ -18,6 +17,7 @@ fun main() {
             val spittedLine = regex.findAll(line).map {
                 it.groupValues.first()
             }.toList()
+            val startPos = position
 
             val direction = spittedLine[0]
             var steps = spittedLine[1].toInt()
@@ -25,7 +25,7 @@ fun main() {
             if (direction == "R") {
                 while (steps > 0) {
                     position++
-                    if (position >= maxPos) {
+                    if (position > maxPos) {
                         position = minPos
                         neutralCount++
                     }
@@ -34,16 +34,18 @@ fun main() {
             }
 
             if (direction == "L") {
+                if (startPos == 0) position = maxPos + 1
                 while (steps > 0) {
                     position--
-                    if (position <= minPos) {
+                    if (position < minPos) {
                         position = maxPos
                         neutralCount++
                     }
                     steps -= 1
                 }
+                if (position == 0) neutralCount++
             }
-            if (position == 0) neutralCount++
+
         }
     }
 
